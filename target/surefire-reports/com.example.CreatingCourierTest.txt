@@ -1,0 +1,25 @@
+-------------------------------------------------------------------------------
+Test set: com.example.CreatingCourierTest
+-------------------------------------------------------------------------------
+Tests run: 6, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 1.582 s <<< FAILURE! - in com.example.CreatingCourierTest
+creatingCourierWithoutFirstName(com.example.CreatingCourierTest)  Time elapsed: 0.238 s  <<< FAILURE!
+java.lang.AssertionError: 
+статус ответа
+Expected: <400>
+     but: was <201>
+	at com.example.CreatingCourierTest.creatingCourierWithoutFirstName(CreatingCourierTest.java:79)
+
+createTwoIdenticalCouriers(com.example.CreatingCourierTest)  Time elapsed: 0.302 s  <<< FAILURE!
+java.lang.AssertionError: 
+Сообщение в теле
+Expected: "Этот логин уже используется"
+     but: was "Этот логин уже используется. Попробуйте другой."
+	at com.example.CreatingCourierTest.createTwoIdenticalCouriers(CreatingCourierTest.java:93)
+
+loginThatAlreadyExists(com.example.CreatingCourierTest)  Time elapsed: 0.307 s  <<< FAILURE!
+java.lang.AssertionError: 
+Сообщение в теле
+Expected: "Этот логин уже используется"
+     but: was "Этот логин уже используется. Попробуйте другой."
+	at com.example.CreatingCourierTest.loginThatAlreadyExists(CreatingCourierTest.java:109)
+
