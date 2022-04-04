@@ -25,13 +25,13 @@ public class CreatingCourierTest {
     @After
     @DisplayName("удаление курьера")
     public void tearDown() {
-        courierClient.delete(courierId);
+        courierClient.deleteCourier(courierId);
     }
 
     @Test
     @DisplayName("создание курьера")
-    public void createCourierWithoutFirstsName() {
-        ValidatableResponse loginResponse = courierClient.create(new Courier(courier.getLogin(), courier.getPassword(), courier.getFirstName()));
+    public void createCourier() {
+        ValidatableResponse loginResponse = courierClient.createCourier(new Courier(courier.getLogin(), courier.getPassword(), courier.getFirstName()));
         int statusCode = loginResponse.extract().statusCode();
         boolean createdStatus = loginResponse.extract().body().path("ok");
 
@@ -45,7 +45,7 @@ public class CreatingCourierTest {
     @Test
     @DisplayName("создание курьера без логина")
     public void creatingCourierWithoutLogin() {
-        ValidatableResponse loginResponse = courierClient.create(new Courier(null, courier.getPassword(), courier.getFirstName()));
+        ValidatableResponse loginResponse = courierClient.createCourier(new Courier(null, courier.getPassword(), courier.getFirstName()));
         int statusCode = loginResponse.extract().statusCode();
 
         assertThat("статус ответа", statusCode, equalTo(SC_BAD_REQUEST));
@@ -58,7 +58,7 @@ public class CreatingCourierTest {
     @Test
     @DisplayName("создание курьера без пароля")
     public void creatingCourierWithoutPassword() {
-        ValidatableResponse loginResponse = courierClient.create(new Courier(courier.getLogin(), null, courier.getFirstName()));
+        ValidatableResponse loginResponse = courierClient.createCourier(new Courier(courier.getLogin(), null, courier.getFirstName()));
         int statusCode = loginResponse.extract().statusCode();
 
         assertThat("статус ответа", statusCode, equalTo(SC_BAD_REQUEST));
@@ -71,7 +71,7 @@ public class CreatingCourierTest {
     @Test
     @DisplayName("создание курьера без имени") //баг в документации уточнить и переделать
     public void creatingCourierWithoutFirstName() {
-        ValidatableResponse loginResponse = courierClient.create(new Courier(courier.getLogin(), courier.getPassword(), null));
+        ValidatableResponse loginResponse = courierClient.createCourier(new Courier(courier.getLogin(), courier.getPassword(), null));
 
         int statusCode = loginResponse.extract().statusCode();
         String errorMessage = loginResponse.extract().body().path("message");
@@ -83,8 +83,8 @@ public class CreatingCourierTest {
     @Test
     @DisplayName("создать двух одинаковых курьеров")
     public void createTwoIdenticalCouriers() {
-        ValidatableResponse oneLoginResponse = courierClient.create(new Courier(courier.getLogin(), courier.getPassword(), courier.getFirstName()));
-        ValidatableResponse loginResponse = courierClient.create(new Courier(courier.getLogin(), courier.getPassword(), courier.getFirstName()));
+        ValidatableResponse oneLoginResponse = courierClient.createCourier(new Courier(courier.getLogin(), courier.getPassword(), courier.getFirstName()));
+        ValidatableResponse loginResponse = courierClient.createCourier(new Courier(courier.getLogin(), courier.getPassword(), courier.getFirstName()));
 
         int statusCode = loginResponse.extract().statusCode();
         assertThat("статус ответа", statusCode, equalTo(SC_CONFLICT));
@@ -96,11 +96,11 @@ public class CreatingCourierTest {
     @Test
     @DisplayName("создать пользователя с логином, который уже есть")
     public void loginThatAlreadyExists() {
-        ValidatableResponse oneLoginResponse = courierClient.create(new Courier(courier.getLogin(), courier.getPassword(), courier.getFirstName()));
+        ValidatableResponse oneLoginResponse = courierClient.createCourier(new Courier(courier.getLogin(), courier.getPassword(), courier.getFirstName()));
         String login = courier.getLogin();
         courier = CourierGenerator.getRandom();
         courier.setLogin(login);
-        ValidatableResponse loginResponse = courierClient.create(new Courier(courier.getLogin(), courier.getPassword(), courier.getFirstName()));
+        ValidatableResponse loginResponse = courierClient.createCourier(new Courier(courier.getLogin(), courier.getPassword(), courier.getFirstName()));
 
         int statusCode = loginResponse.extract().statusCode();
         String errorMessage = loginResponse.extract().body().path("message");

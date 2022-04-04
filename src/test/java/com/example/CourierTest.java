@@ -21,13 +21,13 @@ public class CourierTest {
     public void setUp() {
         courierClient = new CourierClient();
         courier = CourierGenerator.getRandom();
-        courierClient.create(courier);
+        courierClient.createCourier(courier);
     }
 
     @After
     @DisplayName("удаление курьера")
     public void tearDown() {
-        courierClient.delete(courierId);
+        courierClient.deleteCourier(courierId);
     }
 
     @Test

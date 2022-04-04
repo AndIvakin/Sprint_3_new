@@ -16,36 +16,42 @@ import static org.hamcrest.Matchers.*;
 
 public class OrderCreationColorTest {
 
-    CourierClient courierClient;
+    //CourierClient courierClient;
+    OrderClient orderClient;
+    Orders orders;
 
     @Before
     public void setUp() {
-        courierClient = new CourierClient();
+        //courierClient = new CourierClient();
+        orderClient = new OrderClient();
     }
 
-    private final String color;
+    private final String[] color;
 
 
-    public OrderCreationColorTest(String color) {
+    public OrderCreationColorTest(String[] color) {
         this.color = color;
     }
 
     @Parameterized.Parameters
-    public static List<String> getColor() {
-        return List.of("\"BLACK\"",
-                "\"GREY\"",
-                "\"BLACK, GREY\"",
-                "");
+    public static Object[][] getColor() {
+        return new Object[][]{
+                {new String[]{"BLACK"}},
+                {new String[]{"GREY"}},
+                {new String[]{"BLACK, GREY"}},
+                {new String[]{""}},
+        };
     }
+
 
     @Test
     public void ChooseColorInCreateOrderTest() {
-        ValidatableResponse loginResponse = courierClient.CreateOrders(color);
+        //ValidatableResponse loginResponse = OrderClient.createOrders(color);
+        ValidatableResponse loginResponse = OrderClient.createOrders (new Orders ("Naruto", "Uchiha", "Konoha, 142 apt.", "4", "+7 800 355 35 35", 5, "2020-06-06", "Saske, come back to Konoha", color));
         int statusCode = loginResponse.extract().statusCode();
-        int trackIsCreated = loginResponse.extract().path("track");
 
         assertThat("статус ответа", statusCode, equalTo(SC_CREATED));
+        int trackIsCreated = loginResponse.extract().path("track");
         assertThat("Сообщение в теле", trackIsCreated, is(not(0)));
     }
-
 }

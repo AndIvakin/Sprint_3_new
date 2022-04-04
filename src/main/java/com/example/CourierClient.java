@@ -8,7 +8,6 @@ import static io.restassured.RestAssured.given;
 public class CourierClient extends ScooterRestClient {
 
     private static final String COURIER_PATH = "/api/v1/courier/";
-    private static final String ORDER_PATH = "api/v1/orders/";
 
     @Step("логирование курьера {credentials}")
     public ValidatableResponse login(CourierCredentials credentials) {
@@ -21,7 +20,7 @@ public class CourierClient extends ScooterRestClient {
     }
 
     @Step("создание курьера {courier}")
-    public ValidatableResponse create(Courier courier) {
+    public ValidatableResponse createCourier(Courier courier) {
         return given()
                 .spec(getBaseSpec())
                 .body(courier)
@@ -30,8 +29,8 @@ public class CourierClient extends ScooterRestClient {
                 .then();
     }
 
-    @Step("удалить курьера {courierId}")
-    public ValidatableResponse delete(int courierId) {
+    @Step("удалять курьера, если он был создан в тесте {courierId}")
+    public ValidatableResponse deleteCourier(int courierId) {
         return given()
                 .spec(getBaseSpec())
                 .body("{\"id\":\"" + courierId + "\"}")
@@ -39,24 +38,4 @@ public class CourierClient extends ScooterRestClient {
                 .delete(COURIER_PATH + courierId)
                 .then();
     }
-
-    @Step("Создание заказа цвет")
-    public ValidatableResponse CreateOrders(String color) {
-        return given()
-                .spec(getBaseSpec())
-                .body("{\"firstName\":\"Naruto\",\"lastName\":\"Uchiha\",\"address\":\"Konoha, 142 apt.\",\"metroStation\":4,\"phone\":\"+7 800 355 35 35\",\"rentTime\":5,\"deliveryDate\":\"2020-06-06\",\"comment\":\"Saske, come back to Konoha\",\"color\":[" + color + "]}")
-                .when()
-                .post(ORDER_PATH)
-                .then();
-    }
-
-    @Step("список заказов")
-    public ValidatableResponse listOrders() {
-        return given()
-                .spec(getBaseSpec())
-                .when()
-                .get(ORDER_PATH + list)
-                .then();
-    }
-
 }

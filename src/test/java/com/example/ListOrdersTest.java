@@ -16,11 +16,10 @@ public class ListOrdersTest {
     @DisplayName("тело ответа возвращается список заказов")
     public void theResponseReturnsListOrders() {
         courierClient = new CourierClient();
-        ValidatableResponse listOrders = courierClient.listOrders();
+        ValidatableResponse listOrders = OrderClient.listOrders();
         int statusCode = listOrders.extract().statusCode();
         assertThat("статус ответа", statusCode, equalTo(SC_OK));
         String courierId = listOrders.extract().path("id");
         assertThat("Сообщение в теле", courierId, is(not(0)));
     }
-
 }

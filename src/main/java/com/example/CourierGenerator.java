@@ -1,5 +1,4 @@
 package com.example;
-// импортируем RestAssured
 
 import io.restassured.response.Response;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -7,11 +6,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import java.util.ArrayList;
 
 import static io.restassured.RestAssured.given;
-
-// импортируем Response
-// импортируем библиотеку генерации строк
-// импортируем список
-// дополнительный статический импорт нужен, чтобы использовать given(), get() и then()
 
 public class CourierGenerator {
 
